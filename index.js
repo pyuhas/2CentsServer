@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan(process.env.NODE_ENV !== 'production' ? 'dev' : 'combined'))
 app.use(cors({origin: true, credentials: true}))
 
-app.get('/cities', (req, res) => {
+app.get('/cities', (req, res, next) => {
   knex('cities').then(cities => {
     res.json(cities)
   })
