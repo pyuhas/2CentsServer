@@ -35,5 +35,5 @@ exports.seed = function(knex, Promise) {
         restaurants: ['Cafe Pasquals', 'Tia Sophias', 'Radish & Rye'],
         activities: ['Relax at Ten Thousand Waves Spa', 'Be a kid again at Meow Wolf', 'See the infamous staircase at Loretto Chapel']
       }]);
-    });
-};
+});
+}

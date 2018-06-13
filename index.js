@@ -5,7 +5,7 @@ const cors        = require('cors')
 const knex        = require('./connection.js')
 const app         = module.exports = express()
 const port        = parseInt(process.env.PORT || 3000)
-
+const cities = require('./cities.js')
 
 
 app.use(bodyParser.json())
@@ -13,15 +13,40 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan(process.env.NODE_ENV !== 'production' ? 'dev' : 'combined'))
 app.use(cors({origin: true, credentials: true}))
 
+// List
 app.get('/cities', (req, res, next) => {
-  knex('cities').then(cities => {
-    res.json(cities)
+  cities.list().then(cities => {
+    res.status(200).json(cities)
   })
-
-
 });
 
+// Read
+app.get('/cities/:id', (req, res, next) => {
+  cities.read(req.params.id).then(city => {
+    res.status(200).json({city});
+  });
+});
 
+// Create
+app.post('/cities', (req, res, next) => {
+  cities.create(req.body.city).then(city => {
+    res.status(201).json({city});
+  });
+});
+
+// Update
+app.put('/cities/:id', (req, res, next) => {
+  cities.update(req.params.id, req.body).then(city => {
+    res.status(201).json({city});
+  });
+});
+
+// Delete
+app.delete('/cities/:id', (req, res, next) => {
+  cities.remove(req.params.id).then(() => {
+    res.status(204).json({});
+  });
+});
 
 app.use(notFound)
 app.use(errorHandler)
